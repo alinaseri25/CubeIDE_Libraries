@@ -6,7 +6,7 @@
 #define MAX_JSON_SIZE       (64*1024)
 #define MAX_PAYLOAD_SIZE    (10*1024*1024)
 
-#define jsonVersion         "00.00.02"
+#define jsonVersion         "00.01.05"
 #define startByte            0xAA55AA55
 
 enum EquipmentType{

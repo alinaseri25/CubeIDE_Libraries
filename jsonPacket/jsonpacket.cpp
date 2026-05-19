@@ -77,7 +77,7 @@ void Packets::readRxPacket(UART_HandleTypeDef *huart,uint8_t **_jsonBody,uint32_
 	{
 		DataHeader *header = (DataHeader *)(tempPtr + i);
 
-		if(header->startBytes != statByte)
+		if(header->startBytes != startByte)
 		{
 			i++;
 			continue;
