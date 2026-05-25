@@ -18,7 +18,8 @@ SaveKeyProtocol::SaveKeyProtocol(UART_HandleTypeDef *_uart,GPIO_TypeDef *_GPIOx,
 void SaveKeyProtocol::init(void)
 {
 	LineFreed();
-	HAL_UART_Receive_IT(uart,Port->Buffer,BUFFER_SIZE);
+	HAL_UART_Receive_DMA(uart, this->getRxBuffer(), rxBufferSize);
+	__HAL_UART_ENABLE_IT(uart, UART_IT_IDLE);
 }
 
 HAL_StatusTypeDef SaveKeyProtocol::SendCommand(HeaderType _Type,KeyState _state,uint8_t _ID,KeyNum	_KeySelect)
@@ -54,30 +55,6 @@ void SaveKeyProtocol::LineFreed(void)
 	HAL_GPIO_WritePin(GPIOx,GPIO_Pin,GPIO_PIN_RESET);
 }
 
-void SaveKeyProtocol::CheckTimeOut(void)
-{
-	if(Port->TimeOut > 0)
-	{
-		Port->TimeOut--;
-		if(Port->TimeOut == 0)
-		{
-			__HAL_UART_DISABLE_IT(uart, UART_IT_RXNE);
-			/* Check if a transmit process is ongoing or not */
-      if(uart->RxState == HAL_UART_STATE_BUSY_TX_RX) {
-        uart->RxState = HAL_UART_STATE_BUSY_TX;
-      }
-      else{
-        /* Disable the UART Parity Error Interrupt */
-        __HAL_UART_DISABLE_IT(uart, UART_IT_PE);
-        __HAL_UART_DISABLE_IT(uart, UART_IT_ERR);
-        uart->RxState = HAL_UART_STATE_READY;
-      }
-			Port->Len = uart->RxXferSize - uart->RxXferCount;
-			Port->LineState = Recieved;
-		}
-	}
-}
-
 void SaveKeyProtocol::Process(void)
 {
 	if(Port->LineState == Nothing)
@@ -85,6 +62,43 @@ void SaveKeyProtocol::Process(void)
 	DataRecieved(Port);
 	Port->LineState = Nothing;
 	HAL_UART_Receive_IT(uart,Port->Buffer,BUFFER_SIZE);
+}
+
+void SaveKeyProtocol::rxCompleted(void)
+{
+
+	uint16_t newDataLen = 0;
+
+	uint16_t currentPos = rxBufferSize - __HAL_DMA_GET_COUNTER(uart->hdmarx);
+	if(currentPos == lastPos)
+	{
+		HAL_UART_Receive_DMA(uart, this->getRxBuffer(), rxBufferSize);
+		__HAL_UART_ENABLE_IT(uart, UART_IT_IDLE);
+		lastPos = 0;
+		Port->Len = newDataLen;
+		Port->LineState = Nothing;
+		return;
+	}
+	else if(currentPos > lastPos)
+	{
+		newDataLen = currentPos - lastPos;
+		memcpy(Port->Buffer, rxBuffer + lastPos, newDataLen);
+	}
+	else
+	{
+		uint16_t firstPart = rxBufferSize - lastPos;
+		uint16_t secondPart = currentPos;
+
+		memcpy(Port->Buffer, rxBuffer + lastPos, firstPart);
+		memcpy(Port->Buffer + firstPart, rxBuffer, secondPart);
+
+		newDataLen = firstPart + secondPart;
+	}
+
+	lastPos = currentPos;
+
+	Port->Len = newDataLen;
+	Port->LineState = Recieved;
 }
 
 void SaveKeyProtocol::SetID(uint8_t _ID)
@@ -95,4 +109,9 @@ void SaveKeyProtocol::SetID(uint8_t _ID)
 uint8_t SaveKeyProtocol::GetID(void)
 {
 	return ID;
+}
+
+uint8_t* SaveKeyProtocol::getRxBuffer(void)
+{
+	return rxBuffer;
 }

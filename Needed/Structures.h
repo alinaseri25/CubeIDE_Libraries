@@ -12,6 +12,7 @@ typedef enum
 	Recieved
 }UARTSTATE;
 
+
 typedef struct 
 {
 	uint8_t Buffer[BUFFER_SIZE];
