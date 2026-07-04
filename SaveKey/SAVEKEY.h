@@ -101,19 +101,19 @@ typedef struct
 
 typedef struct
 {
-	HeaderType	header;
-	KeyState		state;
-	uint8_t 				ID;
-	KeyNum			KeySelect;
-	uint8_t				Fixed0;
-	uint8_t				ID_Replay;
-	KeyNum			KeySelect_Replay;
-	uint8_t				checksum;
+	HeaderType					header;
+	KeyState					state;
+	uint8_t 					ID;
+	KeyNum						KeySelect;
+	uint8_t						Fixed0;
+	uint8_t						ID_Replay;
+	KeyNum						KeySelect_Replay;
+	uint8_t						checksum;
 }ScenarioHeader;
 
 typedef enum
 {
-	LineFree		= 0x00,
+	LineFree					= 0x00,
 	LineBusy					
 }LineState;
 
