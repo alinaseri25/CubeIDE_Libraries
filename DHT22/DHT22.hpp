@@ -1,57 +1,131 @@
-#ifndef DHT22CPP_H
-#define DHT22CPP_H
-
-#define DHTREADTIME 1000
-
-//Define DHT Type
-typedef enum
-{
-	DHT2X			= 0x00,
-	DHT1X						
-}DHT22Type;
+#ifndef DHT22_HPP
+#define DHT22_HPP
 
 #include "stm32f1xx_hal.h"
-#include "dwt_stm32_delay.h"
+#include <stdint.h>
 
-extern IWDG_HandleTypeDef hiwdg;
+#ifndef DHTREADTIME
+#define DHTREADTIME 1000U
+#endif
+
+typedef enum
+{
+    DHT2X = 0x00,
+    DHT1X = 0x01
+} DHT22Type;
 
 struct Temp_Hum
 {
-	float Temp;
-	float Hum;
+    float Temp;
+    float Hum;
 };
 
 class DHT22
 {
 public:
-	DHT22(GPIO_TypeDef *_GPIOx,uint16_t _GPIO_Pin,DHT22Type _DHTType = DHT2X);
-	Temp_Hum DHT_Read(void);
-	float readTemperature(bool S=false, bool force=false);
-	float readHumidity(bool force=false);
-	HAL_StatusTypeDef DHTStatus(void);
-	DHT22Type GetDHTType(void);
-	void SetDHTType(DHT22Type _DHTType);
+    enum class State : uint8_t
+    {
+        Idle = 0,
+        StartLow,
+        StartHigh,
+        WaitResponseLow,
+        WaitResponseHigh,
+        WaitBitLow,
+        WaitBitHigh,
+        Complete,
+        Error
+    };
+
+public:
+    DHT22(GPIO_TypeDef* gpio,
+          uint16_t pin,
+          DHT22Type type = DHT2X);
+
+    /*
+     * Starts a new asynchronous measurement.
+     *
+     * Returns:
+     *   true  - measurement started
+     *   false - sensor is busy or minimum interval has not elapsed
+     */
+    bool StartRead();
+
+    /*
+     * Advances the state machine.
+     *
+     * Must be called frequently from the main loop.
+     * It never waits and never blocks.
+     */
+    void Process();
+
+    bool IsBusy() const;
+    bool IsIdle() const;
+    bool HasNewData() const;
+    void ClearNewData();
+
+    State GetState() const;
+    HAL_StatusTypeDef GetStatus() const;
+
+    Temp_Hum GetData() const;
+    float GetTemperature(bool fahrenheit = false) const;
+    float GetHumidity() const;
+
+    DHT22Type GetDHTType() const;
+    void SetDHTType(DHT22Type type);
+
 private:
-	
-	HAL_StatusTypeDef begin(void);
-	HAL_StatusTypeDef check_response(void);
-	
-	void set_gpio_output(void);
-	void set_gpio_input(void);
-	uint8_t read(bool force=false);
+    static constexpr uint32_t DHT22_START_LOW_US       = 500U;
+    static constexpr uint32_t DHT22_START_HIGH_US      = 30U;
+    static constexpr uint32_t DHT11_START_LOW_MS       = 18U;
 
-	float convertCtoF(float c);
-  float convertFtoC(float f);
+    static constexpr uint32_t RESPONSE_TIMEOUT_US      = 200U;
+    static constexpr uint32_t BIT_TIMEOUT_US           = 200U;
+    static constexpr uint32_t BIT_THRESHOLD_US         = 40U;
 
-	
-	GPIO_InitTypeDef GPIO_InitStruct;
-	uint16_t GPIO_Pin;
-	GPIO_TypeDef *GPIOx;
-	HAL_StatusTypeDef DHT22State;
-	Temp_Hum DHT_Temp_Hum;
-	uint32_t lasttime;
-	DHT22Type DHTType;
+private:
+    void ConfigureAsOutput();
+    void ConfigureAsInput();
 
+    void SetPinLow();
+    void SetPinHigh();
+
+    bool ReadPin() const;
+
+    void EnterState(State newState);
+    void Fail(HAL_StatusTypeDef status);
+
+    void ResetFrame();
+    void StoreBit(bool bit);
+    void DecodeFrame();
+
+    static void InitializeDWT();
+    static uint32_t Micros();
+    static uint32_t ElapsedMicros(uint32_t start);
+
+    static float CelsiusToFahrenheit(float celsius);
+
+private:
+    GPIO_TypeDef* m_gpio;
+    uint16_t m_pin;
+
+    GPIO_InitTypeDef m_gpioInit;
+
+    DHT22Type m_type;
+
+    State m_state;
+    HAL_StatusTypeDef m_status;
+
+    Temp_Hum m_data;
+
+    uint32_t m_lastReadTick;
+    uint32_t m_stateStartMicros;
+    uint32_t m_bitStartMicros;
+
+    uint8_t m_frame[5];
+    uint8_t m_bitCount;
+
+    bool m_hasValidData;
+    bool m_newData;
 };
 
 #endif
