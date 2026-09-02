@@ -9,6 +9,7 @@
 #define jsonVersion         "00.01.05"
 #define startByte            0xAA55AA55
 
+#pragma pack(push, 1)
 enum EquipmentType{
     Other           = 0x01,
     Android         ,
@@ -48,7 +49,6 @@ enum States{
     nok
 };
 
-#pragma pack(push, 1)
 struct DataHeader{
     uint32_t    startBytes = startByte;
     uint32_t    jsonSize;
