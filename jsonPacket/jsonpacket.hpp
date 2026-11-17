@@ -2,7 +2,17 @@
 #define JSONPACKETCPP_H
 
 #include "packetStructs.hpp"
-#include "stm32f1xx_hal.h"
+/* platform.h */
+#pragma once
+
+#if defined(STM32G070xx)
+    #include "stm32g0xx_hal.h"
+#elif defined(STM32F1) // این را با macro واقعی پروژه‌ی F1 جایگزین کن
+    #include "stm32f1xx_hal.h"
+#else
+    //#error "Select a supported STM32 family"
+#endif
+
 #include "ArduinoJson.h"
 #include <string.h>
 #include <queue>

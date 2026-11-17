@@ -177,7 +177,7 @@ void Packets::packetResetTimer(TXPacket *_packet)
 
 uint32_t Packets::fast_rand(void)
 {
-	if (rng_state == 0) rng_state = HAL_GetTick();;
+	if (rng_state == 0) rng_state = HAL_GetTick();
 
 	rng_state ^= rng_state << 13;
 	rng_state ^= rng_state >> 17;
