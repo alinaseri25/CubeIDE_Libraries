@@ -3,7 +3,8 @@
 #define __TCP_CLIENT_H__
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "lwip/debug.h"
 #include "lwip/stats.h"
 #include "lwip/tcp.h"

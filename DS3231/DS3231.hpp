@@ -1,7 +1,8 @@
 #ifndef __DS3231_H
 #define __DS3231_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "stdint.h"
 #include "DateTime.h"
 

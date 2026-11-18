@@ -1,7 +1,8 @@
 #ifndef _74HC595_H
 #define _74HC595_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 
 
 class _74HC595

@@ -1,7 +1,8 @@
 #ifndef DHT22_HPP
 #define DHT22_HPP
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include <stdint.h>
 
 #ifndef DHTREADTIME

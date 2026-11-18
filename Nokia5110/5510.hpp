@@ -1,7 +1,8 @@
 #ifndef __N5110_H
 #define __N5110_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 
 #define	N5110_COMMAND	0
 #define N5110_DATA 1

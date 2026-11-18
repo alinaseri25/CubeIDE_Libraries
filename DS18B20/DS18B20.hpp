@@ -1,7 +1,8 @@
 #ifndef DS18B20_H
 #define DS18B20_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "dwt_stm32_delay.h"
 
 class DS18B20

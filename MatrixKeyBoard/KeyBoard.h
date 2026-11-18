@@ -1,7 +1,8 @@
 #ifndef KEYBOARD_H
 #define KEYBOARD_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "dwt_stm32_delay.h"
 
 typedef struct

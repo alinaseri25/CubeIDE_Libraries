@@ -1,7 +1,8 @@
 #ifndef DEFINE_H
 #define DEFINE_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 
 const unsigned char shmtable[6][12]={
 	{11,10,10,9,9,9,8,9,9,10,11,9},

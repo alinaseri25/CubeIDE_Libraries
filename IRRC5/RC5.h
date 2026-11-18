@@ -1,7 +1,8 @@
 #ifndef RC5_H
 #define RC5_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "dwt_stm32_delay.h"
 
 class IRRC5

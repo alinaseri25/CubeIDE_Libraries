@@ -1,7 +1,8 @@
 #ifndef ANSG08_H
 #define ANSG08_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 
 #define Ch_enable  0x01 //Touch Channel Enable/Disable
 #define i2c_id  	0x06 //I2C Address of ANSG08

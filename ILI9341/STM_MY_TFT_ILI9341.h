@@ -29,7 +29,8 @@ Some additional edits by Iman Hosseinzadeh i.hosseinzadeh@ut.ac.ir
 #include <stdlib.h>
 
 // Device Specific Include. Change for each micro: stm32f0xx_hal.h , stm32f1xx_hal.h , ...
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 
 
 

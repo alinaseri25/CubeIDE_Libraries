@@ -1,7 +1,8 @@
 #ifndef STRUCTURES_H
 #define STRUCTURES_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 
 #define BUFFER_SIZE 100
 #define	UARTTimeOut	10

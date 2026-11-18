@@ -1,6 +1,7 @@
 #ifndef __TCP_SERVER_H__
 #define __TCP_SERVER_H__
 
+#include "main.h"
 #include "lwip/debug.h"
 #include "lwip/stats.h"
 #include "lwip/tcp.h"

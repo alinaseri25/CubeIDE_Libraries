@@ -1,4 +1,5 @@
-#include "stm32f4xx_hal.h"
+//#include "stm32f4xx_hal.h"
+#include "main.h"
 //#include "cmsis_os.h"
 
 void init_AT45DB(SPI_HandleTypeDef *_spi,GPIO_TypeDef *_GPIOx,uint16_t _GPIO_PIN);

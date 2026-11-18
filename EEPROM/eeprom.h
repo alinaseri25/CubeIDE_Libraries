@@ -41,7 +41,8 @@
 #define __EEPROM_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 
 /* Exported constants --------------------------------------------------------*/
 /* Base address of the Flash sectors */

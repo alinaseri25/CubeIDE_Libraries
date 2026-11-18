@@ -1,7 +1,8 @@
 #ifndef SSD1306_HPP
 #define SSD1306_HPP
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "fonts.h"
 
 // I2c address

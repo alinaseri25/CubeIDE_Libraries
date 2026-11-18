@@ -1,5 +1,6 @@
 //List of header files  
-#include "stm32f1xx_hal.h"   //** Change this according to your STM32 series **//
+//#include "stm32f1xx_hal.h"   //** Change this according to your STM32 series **//
+#include "main.h"
 #include "nRF24L01.h"
 #include <stdlib.h>
 #include <stdbool.h>

@@ -8,7 +8,8 @@
 
 
 #include  "stdbool.h"
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #define swap(type, i, j) {type t = i; i = j; j = t;}
 
 #define LCD_CTRL_PORT GPIOB

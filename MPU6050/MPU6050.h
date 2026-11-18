@@ -1,7 +1,8 @@
 #ifndef __MPU6050_H
 #define __MPU6050_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "cmsis_os.h"
 
 class MPU6050

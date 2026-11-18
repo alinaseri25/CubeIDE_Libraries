@@ -1,7 +1,8 @@
 #ifndef LCD_I2CCPP_H
 #define LCD_I2CCPP_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 #include "../DWT_Delay/dwt_stm32_delay.h"
 //#include "../DWT_Delay/dwt_stm32_delay.h"
 

@@ -1,7 +1,8 @@
 #ifndef DateTime_H
 #define DateTime_H
 
-#include "stm32f1xx_hal.h"
+//#include "stm32f1xx_hal.h"
+#include "main.h"
 //#include "cmsis_os.h"
 
 const uint8_t milmonth[12]={
